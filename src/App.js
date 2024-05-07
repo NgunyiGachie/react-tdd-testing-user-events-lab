@@ -1,4 +1,33 @@
+import React, { useState } from "react";
+
 function App() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    topic1: false,
+    topic2: false,
+    topic3: false,
+    submitted: false
+  });
+
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const val = type === 'checkbox' ? checked : value;
+
+    setFormData({
+      ...formData,
+      [name]: val
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setFormData({
+      ...formData,
+      submitted: true
+    });
+  };
+
   return (
     <main>
       <h1>Hi, I'm (your name)</h1>
@@ -18,6 +47,64 @@ function App() {
         <a href="https://github.com">GitHub</a>
         <a href="https://linkedin.com">LinkedIn</a>
       </div>
+
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <label>
+          Email:
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <label>
+          <input
+            type="checkbox"
+            name="topic1"
+            checked={formData.topic1}
+            onChange={handleChange}
+          />
+          Topic 1
+        </label>
+        <br />
+        <label>
+          <input
+            type="checkbox"
+            name="topic2"
+            checked={formData.topic2}
+            onChange={handleChange}
+          />
+          Topic 2
+        </label>
+        <br />
+        <label>
+          <input
+            type="checkbox"
+            name="topic3"
+            checked={formData.topic3}
+            onChange={handleChange}
+          />
+          Topic 3
+        </label>
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+
+      {formData.submitted && (
+        <p>Form submitted successfully!</p>
+      )}
     </main>
   );
 }
